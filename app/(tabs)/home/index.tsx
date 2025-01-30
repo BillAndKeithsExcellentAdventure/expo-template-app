@@ -10,6 +10,7 @@ import { TwoColumnListEntry, TwoColumnList } from '@/components/TwoColumnList';
 import { FontAwesome } from '@expo/vector-icons';
 import { ActionButtonProps } from '@/components/ButtonBar';
 import { Colors } from '@/constants/Colors';
+import { ScreenHeader } from '@/components/ScreenHeader';
 
 const listData: TwoColumnListEntry[] = [
   {
@@ -188,12 +189,63 @@ export default function HomeScreen() {
     },
   ];
 
+  // Androids render buttons on right but then are unable to activate a onPress so the current solutions is to replace the entire header.
+  if (Platform.OS === 'android') {
+    return (
+      <>
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            header: () => (
+              <ScreenHeader
+                title='Android Home Screen'
+                headerRight={() => (
+                  <>
+                    <Pressable
+                      onPress={() => {
+                        router.replace('/(admin-tabs)/admin');
+                        console.log('going to route /(admin-tabs)/admin');
+                      }}
+                    >
+                      {({ pressed }) => (
+                        <MaterialDesignTabBarIcon
+                          name='cog'
+                          size={24}
+                          color={colorScheme === 'light' ? 'black' : 'white'}
+                          style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                        />
+                      )}
+                    </Pressable>
+                  </>
+                )}
+              />
+            ),
+          }}
+        />
+        <View style={[styles.screenContainer, { backgroundColor: colors.screenBackground }]}>
+          <Text txtSize='title'>Home Screen</Text>
+          <Link style={styles.link} href={'(tabs)/home/detail'}>
+            <Text>Go to Details</Text>
+          </Link>
+          <View style={[styles.twoColListContainer, { backgroundColor: colors.screenBackground }]}>
+            <TwoColumnList
+              data={listData}
+              onPress={(i) => console.log(`Hello from item ${i.primaryTitle}`)}
+              buttons={buttons}
+            />
+          </View>
+        </View>
+      </>
+    );
+  }
+
+  // Not Android
   return (
     <>
       <Stack.Screen
         options={{
           headerShown: true,
-          title: 'Home Screen Title',
+          title: 'Std Home Screen',
           headerRight: () => (
             <>
               <Pressable

@@ -198,7 +198,8 @@ export default function HomeScreen() {
             <>
               <Pressable
                 onPress={() => {
-                  router.replace('(admin-tabs)/admin');
+                  router.replace('/(admin-tabs)/admin');
+                  console.log('going to route /(admin-tabs)/admin');
                 }}
               >
                 {({ pressed }) => (

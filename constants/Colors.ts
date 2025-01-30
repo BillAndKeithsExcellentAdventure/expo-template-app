@@ -14,6 +14,7 @@ export const Colors = {
     itemBackground: '#fff',
     iconColor: '#000',
     shadowColor: '#000',
+    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.8)', // ...(Platform.OS === 'web'
   },
   dark: {
     text: '#fff',
@@ -21,11 +22,12 @@ export const Colors = {
     tint: tintColorDark,
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
-    borderColor: '#222',
+    borderColor: '#666',
     headerBackgroundColor: '#1F1F1F',
     listBackground: '#222',
     itemBackground: '#000',
     iconColor: '#fff',
     shadowColor: '#fff',
+    boxShadow: '0px 2px 5px rgba(255, 255, 255, 0.8)', // ...(Platform.OS === 'web'
   },
 };

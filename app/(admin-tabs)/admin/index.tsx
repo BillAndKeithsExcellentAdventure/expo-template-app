@@ -10,7 +10,7 @@ export default function HomeScreen() {
       <Stack.Screen options={{ headerShown: true, title: 'Admin Screen Title' }} />
       <View style={styles.container}>
         <Text style={styles.title}>Admin Screen</Text>
-        <Button title='Go To Home' onPress={() => router.replace('(tabs)/home')} />
+        <Button title='Go To Home' onPress={() => router.replace('/(tabs)/home')} />
       </View>
     </>
   );

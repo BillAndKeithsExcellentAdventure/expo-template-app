@@ -37,20 +37,28 @@ export function TwoColumnList({
           itemBackground: Colors.dark.itemBackground,
           iconColor: Colors.dark.iconColor,
           shadowColor: Colors.dark.shadowColor,
+          boxShadow: Colors.dark.boxShadow,
         }
       : {
           listBackground: Colors.light.listBackground,
           itemBackground: Colors.light.itemBackground,
           iconColor: Colors.light.iconColor,
           shadowColor: Colors.light.shadowColor,
+          boxShadow: Colors.light.boxShadow,
         };
 
   if (Platform.OS === 'web') {
     colors.listBackground = '#efefef';
   }
 
+  const boxShadow = Platform.OS === 'web' ? colors.boxShadow : undefined;
   const renderItem = ({ item }: { item: TwoColumnListEntry }) => (
-    <View style={[styles.itemContainer, { backgroundColor: colors.itemBackground, shadowColor: colors.shadowColor }]}>
+    <View
+      style={[
+        styles.itemContainer,
+        { backgroundColor: colors.itemBackground, shadowColor: colors.shadowColor, boxShadow },
+      ]}
+    >
       <Pressable onPress={(e) => onPress(item)} style={{ width: '100%' }}>
         <View style={styles.itemContentContainer}>
           {item.imageUri && (
@@ -115,11 +123,11 @@ const styles = StyleSheet.create({
 
   itemContainer: {
     marginBottom: 10,
-    borderRadius: 20,
+    borderRadius: 15,
     elevation: 4, // Adds shadow effect for Android
-    shadowOffset: { width: 4, height: 6 },
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 15,
     padding: 10,
   },
 

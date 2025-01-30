@@ -45,6 +45,10 @@ export function TwoColumnList({
           shadowColor: Colors.light.shadowColor,
         };
 
+  if (Platform.OS === 'web') {
+    colors.listBackground = '#efefef';
+  }
+
   const renderItem = ({ item }: { item: TwoColumnListEntry }) => (
     <View style={[styles.itemContainer, { backgroundColor: colors.itemBackground, shadowColor: colors.shadowColor }]}>
       <Pressable onPress={(e) => onPress(item)} style={{ width: '100%' }}>
@@ -85,7 +89,7 @@ export function TwoColumnList({
   );
 
   return (
-    <View style={[styles.container, {backgroundColor: colors.listBackground} ]}>
+    <View style={[styles.container, { backgroundColor: colors.listBackground }]}>
       <FlatList
         style={[styles.flatList, { backgroundColor: colors.listBackground }]}
         data={data}
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 4, height: 6 },
     shadowOpacity: 0.1,
     shadowRadius: 20,
-    padding: 10
+    padding: 10,
   },
 
   itemContentContainer: {

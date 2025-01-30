@@ -1,4 +1,4 @@
-import { Button, Pressable, StyleSheet } from 'react-native';
+import { Button, Platform, Pressable, StyleSheet } from 'react-native';
 import React from 'react';
 import MaterialDesign from '@expo/vector-icons/MaterialCommunityIcons';
 
@@ -130,17 +130,23 @@ export default function HomeScreen() {
   const colors =
     colorScheme === 'dark'
       ? {
+          screenBackground: Colors.dark.background,
           listBackground: Colors.dark.listBackground,
           itemBackground: Colors.dark.itemBackground,
           iconColor: Colors.dark.iconColor,
           shadowColor: Colors.dark.shadowColor,
         }
       : {
+          screenBackground: Colors.light.background,
           listBackground: Colors.light.listBackground,
           itemBackground: Colors.light.itemBackground,
           iconColor: Colors.light.iconColor,
           shadowColor: Colors.light.shadowColor,
         };
+
+  if (Platform.OS === 'web') {
+    colors.screenBackground = '#efefef';
+  }
 
   const isEntry = (obj: any): obj is TwoColumnListEntry => {
     return typeof obj.primaryTitle === 'string' && typeof obj.secondaryTitle === 'string';
@@ -208,12 +214,12 @@ export default function HomeScreen() {
           ),
         }}
       />
-      <View style={styles.container}>
+      <View style={[styles.screenContainer, { backgroundColor: colors.screenBackground }]}>
         <Text txtSize='title'>Home Screen</Text>
         <Link style={styles.link} href={'(tabs)/home/detail'}>
           <Text>Go to Details</Text>
         </Link>
-        <View style={styles.twoColListContainer}>
+        <View style={[styles.twoColListContainer, { backgroundColor: colors.screenBackground }]}>
           <TwoColumnList
             data={listData}
             onPress={(i) => console.log(`Hello from item ${i.primaryTitle}`)}
@@ -226,7 +232,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screenContainer: {
     flex: 1,
     alignItems: 'center',
   },

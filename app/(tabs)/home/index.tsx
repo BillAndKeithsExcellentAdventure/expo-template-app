@@ -7,6 +7,9 @@ import { Link, Stack, router } from 'expo-router';
 import { useColorScheme } from '@/components/useColorScheme';
 import { Card } from '@/components/Card';
 import { TwoColumnListEntry, TwoColumnList } from '@/components/TwoColumnList';
+import { FontAwesome } from '@expo/vector-icons';
+import { ActionButtonProps } from '@/components/ButtonBar';
+import { Colors } from '@/constants/Colors';
 
 const listData: TwoColumnListEntry[] = [
   {
@@ -106,7 +109,7 @@ const listData: TwoColumnListEntry[] = [
   },
   {
     imageUri: 'x',
-    primaryTitle: 'Title6',
+    primaryTitle: 'Title11',
     secondaryTitle: 'title-right',
     lines: [
       { left: 'left1', right: 'right1' },
@@ -116,11 +119,47 @@ const listData: TwoColumnListEntry[] = [
   },
 ];
 
+
 function MaterialDesignTabBarIcon(props: { name: React.ComponentProps<typeof MaterialDesign>['name']; color: string }) {
   return <MaterialDesign size={28} style={{ marginBottom: -3 }} {...props} />;
 }
+
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
+
+    // Define colors based on the color scheme (dark or light)
+    const colors =
+      colorScheme === 'dark'
+        ? {
+            listBackground: Colors.dark.listBackground,
+            itemBackground: Colors.dark.itemBackground,
+            iconColor: Colors.dark.iconColor,
+            shadowColor: Colors.dark.shadowColor,
+          }
+        : {
+            listBackground: Colors.light.listBackground,
+            itemBackground: Colors.light.itemBackground,
+            iconColor: Colors.light.iconColor,
+            shadowColor: Colors.light.shadowColor,
+          };
+  
+  const buttons: ActionButtonProps[] = [
+    {
+      icon: <FontAwesome name='heart-o' size={16} color={colors.iconColor} />,
+      label: 'Like',
+      onPress: () => console.log('Like pressed'),
+    },
+    {
+      icon: <FontAwesome name='comment-o' size={16} color={colors.iconColor} />,
+      label: 'Comment',
+      onPress: () => console.log('Comment pressed'),
+    },
+    {
+      icon: <FontAwesome name='share' size={16} color={colors.iconColor} />,
+      label: 'Share',
+      onPress: () => console.log('Share pressed'),
+    },
+  ];
 
   return (
     <>
@@ -154,7 +193,11 @@ export default function HomeScreen() {
           <Text>Go to Details</Text>
         </Link>
         <View style={styles.twoColListContainer}>
-          <TwoColumnList data={listData} onPress={(i) => console.log(`Hello from item ${i.primaryTitle}`)} />
+          <TwoColumnList
+            data={listData}
+            onPress={(i) => console.log(`Hello from item ${i.primaryTitle}`)}
+            buttons={buttons}
+          />
         </View>
       </View>
     </>
@@ -171,8 +214,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    backgroundColor: '#eee',
-    padding: 20,
+    padding: 10,
   },
   link: {
     color: '#0066cc', // A common blue color for links

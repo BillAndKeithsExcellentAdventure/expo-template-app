@@ -4,6 +4,7 @@ import { Pressable, Image, StyleSheet, FlatList, Platform, GestureResponderEvent
 import { useColorScheme } from '@/components/useColorScheme';
 import { Text, View } from '@/components/Themed';
 import { Colors } from '@/constants/Colors';
+import ButtonBar, { ActionButtonProps } from '@/components/ButtonBar';
 
 // Define types for the props
 export interface TwoColumnListEntry {
@@ -16,9 +17,11 @@ export interface TwoColumnListEntry {
 export function TwoColumnList({
   data,
   onPress,
+  buttons,
 }: {
   data: TwoColumnListEntry[];
   onPress: (item: TwoColumnListEntry) => void;
+  buttons: ActionButtonProps[] | null | undefined;
 }) {
   const colorScheme = useColorScheme();
   let showsVerticalScrollIndicator = false;
@@ -33,51 +36,56 @@ export function TwoColumnList({
           listBackground: Colors.dark.listBackground,
           itemBackground: Colors.dark.itemBackground,
           iconColor: Colors.dark.iconColor,
+          shadowColor: Colors.dark.shadowColor,
         }
       : {
           listBackground: Colors.light.listBackground,
           itemBackground: Colors.light.itemBackground,
           iconColor: Colors.light.iconColor,
+          shadowColor: Colors.light.shadowColor,
         };
 
   const renderItem = ({ item }: { item: TwoColumnListEntry }) => (
-    <Pressable onPress={(e) => onPress(item)} style={{ width: '100%' }}>
-      <View style={styles.itemContainer}>
-        {item.imageUri && (
-          <View style={styles.imageContentContainer}>
-            <Image
-              source={require('@/assets/images/hardHat.png')}
-              tintColor={colors.iconColor}
-              style={{ height: 60, width: 60 }}
-            />
-          </View>
-        )}
-        <View style={[styles.textContentContainer, { backgroundColor: colors.itemBackground }]}>
-          {/* Row for Title */}
-          <View style={styles.titleRow}>
-            <Text txtSize='title'>{item.primaryTitle}</Text>
-            <Text txtSize='standard'>{item.secondaryTitle}</Text>
-          </View>
+    <View style={[styles.itemContainer, {backgroundColor: colors.itemBackground, shadowColor: colors.shadowColor}]}>
+      <Pressable onPress={(e) => onPress(item)} style={{ width: '100%' }}>
+        <View style={styles.itemContentContainer}>
+          {item.imageUri && (
+            <View style={styles.imageContentContainer}>
+              <Image
+                source={require('@/assets/images/hardHat.png')}
+                tintColor={colors.iconColor}
+                style={{ height: 60, width: 60 }}
+              />
+            </View>
+          )}
+          <View style={[styles.textContentContainer, { backgroundColor: colors.itemBackground }]}>
+            {/* Row for Title */}
+            <View style={styles.titleRow}>
+              <Text txtSize='title'>{item.primaryTitle}</Text>
+              <Text txtSize='standard'>{item.secondaryTitle}</Text>
+            </View>
 
-          {/* Row for Subtitles */}
-          {item.lines &&
-            item.lines.map((line, index) => (
-              <View style={styles.subtitleRow} key={index}>
-                <View style={styles.subtitleColumn}>
-                  <Text style={[styles.subtitleTextLeft]}>{line.left}</Text>
+            {/* Row for Subtitles */}
+            {item.lines &&
+              item.lines.map((line, index) => (
+                <View style={styles.subtitleRow} key={index}>
+                  <View style={styles.subtitleColumn}>
+                    <Text style={[styles.subtitleTextLeft]}>{line.left}</Text>
+                  </View>
+                  <View style={styles.subtitleColumn}>
+                    <Text style={[styles.subtitleTextRight]}>{line.right}</Text>
+                  </View>
                 </View>
-                <View style={styles.subtitleColumn}>
-                  <Text style={[styles.subtitleTextRight]}>{line.right}</Text>
-                </View>
-              </View>
-            ))}
+              ))}
+          </View>
         </View>
-      </View>
-    </Pressable>
+      </Pressable>
+      {buttons && <ButtonBar buttons={buttons} />}
+    </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.listBackground} ]}>
       <FlatList
         style={[styles.flatList, { backgroundColor: colors.listBackground }]}
         data={data}
@@ -100,17 +108,20 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '100%',
   },
+
   itemContainer: {
-    flexDirection: 'row',
     marginBottom: 10,
-    borderRadius: 8,
-    elevation: 3, // Adds shadow effect for Android
-    shadowColor: '#000', // iOS shadow
-    shadowOffset: { width: 2, height: 4 },
+    borderRadius: 20,
+    elevation: 4, // Adds shadow effect for Android
+    shadowOffset: { width: 4, height: 6 },
     shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowRadius: 20,
+    padding: 10
   },
 
+  itemContentContainer: {
+    flexDirection: 'row',
+  },
   imageContentContainer: {
     marginRight: 10,
     width: 100,

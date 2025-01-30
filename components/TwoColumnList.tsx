@@ -46,7 +46,7 @@ export function TwoColumnList({
         };
 
   const renderItem = ({ item }: { item: TwoColumnListEntry }) => (
-    <View style={[styles.itemContainer, {backgroundColor: colors.itemBackground, shadowColor: colors.shadowColor}]}>
+    <View style={[styles.itemContainer, { backgroundColor: colors.itemBackground, shadowColor: colors.shadowColor }]}>
       <Pressable onPress={(e) => onPress(item)} style={{ width: '100%' }}>
         <View style={styles.itemContentContainer}>
           {item.imageUri && (
@@ -80,7 +80,7 @@ export function TwoColumnList({
           </View>
         </View>
       </Pressable>
-      {buttons && <ButtonBar buttons={buttons} />}
+      {buttons && <ButtonBar buttons={buttons} actionContext={item} />}
     </View>
   );
 

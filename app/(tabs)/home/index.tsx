@@ -119,7 +119,6 @@ const listData: TwoColumnListEntry[] = [
   },
 ];
 
-
 function MaterialDesignTabBarIcon(props: { name: React.ComponentProps<typeof MaterialDesign>['name']; color: string }) {
   return <MaterialDesign size={28} style={{ marginBottom: -3 }} {...props} />;
 }
@@ -127,37 +126,59 @@ function MaterialDesignTabBarIcon(props: { name: React.ComponentProps<typeof Mat
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
 
-    // Define colors based on the color scheme (dark or light)
-    const colors =
-      colorScheme === 'dark'
-        ? {
-            listBackground: Colors.dark.listBackground,
-            itemBackground: Colors.dark.itemBackground,
-            iconColor: Colors.dark.iconColor,
-            shadowColor: Colors.dark.shadowColor,
-          }
-        : {
-            listBackground: Colors.light.listBackground,
-            itemBackground: Colors.light.itemBackground,
-            iconColor: Colors.light.iconColor,
-            shadowColor: Colors.light.shadowColor,
-          };
-  
+  // Define colors based on the color scheme (dark or light)
+  const colors =
+    colorScheme === 'dark'
+      ? {
+          listBackground: Colors.dark.listBackground,
+          itemBackground: Colors.dark.itemBackground,
+          iconColor: Colors.dark.iconColor,
+          shadowColor: Colors.dark.shadowColor,
+        }
+      : {
+          listBackground: Colors.light.listBackground,
+          itemBackground: Colors.light.itemBackground,
+          iconColor: Colors.light.iconColor,
+          shadowColor: Colors.light.shadowColor,
+        };
+
+  const isEntry = (obj: any): obj is TwoColumnListEntry => {
+    return typeof obj.primaryTitle === 'string' && typeof obj.secondaryTitle === 'string';
+  };
+
   const buttons: ActionButtonProps[] = [
     {
       icon: <FontAwesome name='heart-o' size={16} color={colors.iconColor} />,
       label: 'Like',
-      onPress: () => console.log('Like pressed'),
+      onPress: (e, actionContext) => {
+        if (isEntry(actionContext)) {
+          console.log('Like pressed - ', actionContext.primaryTitle);
+        } else {
+          console.log('Like pressed - ', actionContext);
+        }
+      },
     },
     {
       icon: <FontAwesome name='comment-o' size={16} color={colors.iconColor} />,
       label: 'Comment',
-      onPress: () => console.log('Comment pressed'),
+      onPress: (e, actionContext) => {
+        if (isEntry(actionContext)) {
+          console.log('Comment pressed - ', actionContext.primaryTitle);
+        } else {
+          console.log('Comment pressed - ', actionContext);
+        }
+      },
     },
     {
       icon: <FontAwesome name='share' size={16} color={colors.iconColor} />,
       label: 'Share',
-      onPress: () => console.log('Share pressed'),
+      onPress: (e, actionContext) => {
+        if (isEntry(actionContext)) {
+          console.log('Share pressed - ', actionContext.primaryTitle);
+        } else {
+          console.log('Share pressed - ', actionContext);
+        }
+      },
     },
   ];
 

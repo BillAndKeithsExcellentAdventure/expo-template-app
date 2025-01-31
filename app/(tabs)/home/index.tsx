@@ -188,7 +188,7 @@ export default function HomeScreen() {
   ];
 
   // Androids render buttons on right but then are unable to activate a onPress so the current solutions is to replace the entire header.
-  if (Platform.OS !== 'web') {
+  if (Platform.OS === 'android') {
     return (
       <>
         <Stack.Screen

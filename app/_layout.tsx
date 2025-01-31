@@ -50,6 +50,11 @@ function RootLayoutNav() {
           <Stack.Screen name='(tabs)' options={{ headerTitle: 'Jobs', headerShown: false }} />
           <Stack.Screen name='(auth)' options={{ headerShown: false }} />
           <Stack.Screen name='(admin-tabs)' options={{ headerShown: false }} />
+          <Stack.Screen name='(modals)/modal' options={{ presentation: 'modal', title: 'Simple Modal' }} />
+          <Stack.Screen
+            name='(modals)/createJob'
+            options={{ presentation: 'modal', gestureEnabled: false, title: 'Create New Job' }}
+          />
         </Stack>
       </SessionProvider>
     </ThemeProvider>

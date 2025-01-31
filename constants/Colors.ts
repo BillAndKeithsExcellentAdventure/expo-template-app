@@ -17,6 +17,7 @@ export const Colors = {
     separatorColor: '#DDDDDD',
     inputBorder: '#777',
     boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.8)', // ...(Platform.OS === 'web'
+    placeHolder: 'rgba(0, 0, 0, 0.4)',
     modalOverlayBackgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   dark: {
@@ -34,6 +35,7 @@ export const Colors = {
     separatorColor: '#666',
     inputBorder: '#777',
     boxShadow: '0px 2px 5px rgba(255, 255, 255, 0.8)', // ...(Platform.OS === 'web'
+    placeHolder: 'rgba(255, 255, 255, 0.4)',
     modalOverlayBackgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
 };

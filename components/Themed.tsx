@@ -76,6 +76,7 @@ export function Text(props: TextProps) {
 export function TextInput(props: TextInputProps) {
   const { style, lightColor, darkColor, txtSize, ...otherProps } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const placeHolderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'placeHolder');
 
   // Default text style
   let txtStyle: TextStyle = {};
@@ -108,7 +109,9 @@ export function TextInput(props: TextInputProps) {
   }
 
   // Return the text component with merged styles
-  return <DefaultTextInput style={[{ color }, txtStyle, style]} {...otherProps} />;
+  return (
+    <DefaultTextInput style={[{ color }, txtStyle, style]} {...otherProps} placeholderTextColor={placeHolderColor} />
+  );
 }
 
 export function View(props: ViewProps) {

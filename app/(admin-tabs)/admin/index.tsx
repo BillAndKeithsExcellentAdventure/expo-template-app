@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { Text, View } from '@/components/Themed';
 import { Link, router, Stack } from 'expo-router';
-import NewJobModal from '@/components/modals/createJobModal';
+import NewJobModal from '@/components/modals/NewJobModal';
 
 export default function AdminScreen() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);

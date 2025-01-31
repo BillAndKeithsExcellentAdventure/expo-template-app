@@ -12,7 +12,6 @@ interface NewJobModalProps {
 export default function NewJobModal({ onDone, onCancel }: NewJobModalProps) {
   const [name, setName] = useState<string>('');
   const [location, setLocation] = useState<string>('');
-  const [county, setCounty] = useState<string>('');
   const colorScheme = useColorScheme();
 
   // Define colors based on the color scheme (dark or light)
@@ -40,13 +39,22 @@ export default function NewJobModal({ onDone, onCancel }: NewJobModalProps) {
   };
 
   return (
-    <View style={[styles.modalContainer, {backgroundColor: colors.modalOverlayBackgroundColor}]}>
-      <View style={[styles.modalContent, {backgroundColor: colors.background}]}>
+    <View style={[styles.modalContainer, { backgroundColor: colors.modalOverlayBackgroundColor }]}>
+      <View style={[styles.modalContent, { backgroundColor: colors.background }]}>
         <Text style={styles.headerText}>New Job Details</Text>
 
-        <TextInput style={[styles.input, {borderColor: colors.borderColor}]} placeholder='Job Name' value={name} onChangeText={setName} />
-        <TextInput style={styles.input} placeholder='Location' value={location} onChangeText={setLocation} />
-        <TextInput style={styles.input} placeholder='County' value={county} onChangeText={setCounty} />
+        <TextInput
+          style={[styles.input, { borderColor: colors.borderColor }]}
+          placeholder='Job Name'
+          value={name}
+          onChangeText={setName}
+        />
+        <TextInput
+          style={[styles.input, { borderColor: colors.borderColor }]}
+          placeholder='Location'
+          value={location}
+          onChangeText={setLocation}
+        />
 
         <View style={styles.buttonContainer}>
           <Button title='Done' onPress={handleSubmit} />
@@ -62,7 +70,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.15)', // Semi-transparent background
   },
   modalContent: {
     padding: 10,
@@ -77,7 +84,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
     borderWidth: 1,
     width: '100%',
     marginBottom: 10,

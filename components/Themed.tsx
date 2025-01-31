@@ -14,7 +14,7 @@ type ThemeProps = {
 };
 
 type TextSizeProps = {
-  txtSize?: 'small' | 'standard' | 'sub-title' | 'title';
+  txtSize?: 'small' | 'standard' | 'sub-title' | 'title' | 'screen-header';
 };
 
 export type TextProps = TextSizeProps & ThemeProps & DefaultText['props'];
@@ -60,6 +60,10 @@ export function Text(props: TextProps) {
       case 'title':
         txtStyle.fontSize = 18;
         txtStyle.fontWeight = '600';
+        break;
+      case 'screen-header':
+        txtStyle.fontSize = 14;
+        txtStyle.fontWeight = '500';
         break;
     }
   }

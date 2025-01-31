@@ -1,10 +1,11 @@
-// components/ScreenHeader.tsx
+// components/ScreenHeader.tsx - For use on Android devices when headerLeft or headRight components are specified.
 
 import React from 'react';
-import { TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { StyleSheet, ViewStyle, Platform, FlexAlignType } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { useColorScheme } from '@/components/useColorScheme';
 import { Colors } from '@/constants/Colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Define the type for the props
 export interface ScreenHeaderProps {
@@ -15,29 +16,43 @@ export interface ScreenHeaderProps {
 
 export const ScreenHeader: React.FC<ScreenHeaderProps> = ({ headerLeft, headerRight, title }) => {
   const colorScheme = useColorScheme();
+  const insets = useSafeAreaInsets(); // just in case we use it on IOS
+
+  let alignItems: FlexAlignType = 'flex-start';
+
+  if (Platform.OS === 'ios') {
+    alignItems = 'center';
+  }
 
   // Define colors based on the color scheme (dark or light)
   const colors =
     colorScheme === 'dark'
       ? {
           screenBackground: Colors.dark.background,
-          shadowColor: Colors.dark.shadowColor,
+          separatorColor: Colors.dark.separatorColor,
         }
       : {
           screenBackground: Colors.light.background,
-          shadowColor: Colors.light.shadowColor,
+          separatorColor: Colors.light.separatorColor,
         };
 
   return (
     <View
-      style={[styles.headerContainer, { shadowColor: colors.shadowColor, backgroundColor: colors.screenBackground }]}
+      style={[
+        styles.headerContainer,
+        {
+          backgroundColor: colors.screenBackground,
+          marginTop: insets.top,
+          marginStart: 15,
+          borderColor: colors.separatorColor,
+        },
+      ]}
     >
       {/* Left Header Component */}
-      <View style={styles.headerLeft}>{headerLeft ? headerLeft() : null}</View>
-
+      {headerLeft && <View style={styles.headerLeft}>{headerLeft()}</View>}
       {/* Title */}
-      <View style={styles.headerTitleContainer}>
-        <Text txtSize='sub-title'>{title}</Text>
+      <View style={[styles.headerTitleContainer, { alignItems }]}>
+        <Text txtSize='screen-header'>{title}</Text>
       </View>
 
       {/* Right Header Component */}
@@ -49,24 +64,19 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({ headerLeft, headerRi
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 5,
-    elevation: 3, // Adds a little shadow for Android
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
   } as ViewStyle, // Type for the header container style
   headerLeft: {
-    flex: 1,
     justifyContent: 'center',
+    marginRight: 20,
   } as ViewStyle,
   headerTitleContainer: {
-    flex: 2,
-    alignItems: 'center',
-  } as ViewStyle,
-
-  headerRight: {
     flex: 1,
+    alignItems: 'flex-start',
+  } as ViewStyle,
+  headerRight: {
     justifyContent: 'center',
     alignItems: 'flex-end',
   } as ViewStyle,

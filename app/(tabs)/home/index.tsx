@@ -1,11 +1,9 @@
-import { Button, Platform, Pressable, StyleSheet } from 'react-native';
+import { Platform, Pressable, StyleSheet } from 'react-native';
 import React from 'react';
 import MaterialDesign from '@expo/vector-icons/MaterialCommunityIcons';
-
 import { Text, View } from '@/components/Themed';
 import { Link, Stack, router } from 'expo-router';
 import { useColorScheme } from '@/components/useColorScheme';
-import { Card } from '@/components/Card';
 import { TwoColumnListEntry, TwoColumnList } from '@/components/TwoColumnList';
 import { FontAwesome } from '@expo/vector-icons';
 import { ActionButtonProps } from '@/components/ButtonBar';
@@ -190,7 +188,7 @@ export default function HomeScreen() {
   ];
 
   // Androids render buttons on right but then are unable to activate a onPress so the current solutions is to replace the entire header.
-  if (Platform.OS === 'android') {
+  if (Platform.OS !== 'web') {
     return (
       <>
         <Stack.Screen

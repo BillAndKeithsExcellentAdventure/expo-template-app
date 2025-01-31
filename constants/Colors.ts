@@ -14,6 +14,7 @@ export const Colors = {
     itemBackground: '#fff',
     iconColor: '#000',
     shadowColor: '#000',
+    separatorColor: '#DDDDDD',
     boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.8)', // ...(Platform.OS === 'web'
   },
   dark: {
@@ -28,6 +29,7 @@ export const Colors = {
     itemBackground: '#000',
     iconColor: '#fff',
     shadowColor: '#fff',
+    separatorColor: '#666',
     boxShadow: '0px 2px 5px rgba(255, 255, 255, 0.8)', // ...(Platform.OS === 'web'
   },
 };

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { TextInput, Button, StyleSheet } from 'react-native';
+import { Button, StyleSheet } from 'react-native';
 import { useColorScheme } from '@/components/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { Text, View } from '@/components/Themed';
+import { Text, View, TextInput } from '@/components/Themed';
 
 interface NewJobModalProps {
   onDone: (data: { name: string; location: string }) => void; // Callback to pass data back to HomeScreen

@@ -1,5 +1,5 @@
-import { Button, Platform, StyleSheet, TextInput } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { Button, Platform, StyleSheet } from 'react-native';
+import { Text, View, TextInput } from '@/components/Themed';
 import { router } from 'expo-router';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useState } from 'react';

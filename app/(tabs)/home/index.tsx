@@ -313,7 +313,7 @@ export default function HomeScreen() {
                       <MaterialDesignTabBarIcon
                         name='cog'
                         size={24}
-                        color={colorScheme === 'light' ? 'black' : 'white'}
+                        color={colors.iconColor}
                         style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                       />
                     )}
@@ -346,7 +346,7 @@ export default function HomeScreen() {
                 <MaterialDesignTabBarIcon
                   name='cog'
                   size={24}
-                  color={colorScheme === 'light' ? 'black' : 'white'}
+                  color={colors.iconColor}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}

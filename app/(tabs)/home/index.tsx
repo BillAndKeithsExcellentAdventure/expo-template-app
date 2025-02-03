@@ -1,5 +1,14 @@
-import { Platform, Pressable, StyleSheet } from 'react-native';
-import React from 'react';
+import {
+  LayoutChangeEvent,
+  Modal,
+  Platform,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  SafeAreaView,
+} from 'react-native';
+import React, { useRef, useState } from 'react';
 import MaterialDesign from '@expo/vector-icons/MaterialCommunityIcons';
 import { Text, View } from '@/components/Themed';
 import { Link, Stack, router } from 'expo-router';
@@ -9,6 +18,14 @@ import { FontAwesome } from '@expo/vector-icons';
 import { ActionButtonProps } from '@/components/ButtonBar';
 import { Colors } from '@/constants/Colors';
 import { ScreenHeader } from '@/components/ScreenHeader';
+
+interface ThemedColors {
+  screenBackground: string;
+  listBackground: string;
+  itemBackground: string;
+  iconColor: string;
+  shadowColor: string;
+}
 
 const listData: TwoColumnListEntry[] = [
   {
@@ -122,8 +139,95 @@ function MaterialDesignTabBarIcon(props: { name: React.ComponentProps<typeof Mat
   return <MaterialDesign size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
+function HomeScreenModalMenu({
+  modalVisible,
+  setModalVisible,
+}: {
+  modalVisible: boolean;
+  setModalVisible: (val: boolean) => void;
+}) {
+  const handleGoToAdminItemPress = (): void => {
+    router.replace('/(admin-tabs)/admin');
+    setModalVisible(false);
+  };
+
+  const handleMenuItemPress = (item: string): void => {
+    console.log(`${item} pressed`);
+    setModalVisible(false); // Close the modal after selecting an item
+  };
+
+  const colorScheme = useColorScheme();
+  const colors =
+    colorScheme === 'dark'
+      ? {
+          screenBackground: Colors.dark.background,
+          separatorColor: Colors.dark.separatorColor,
+          modalOverlayBackgroundColor: Colors.dark.modalOverlayBackgroundColor,
+        }
+      : {
+          screenBackground: Colors.light.background,
+          separatorColor: Colors.light.separatorColor,
+          modalOverlayBackgroundColor: Colors.light.modalOverlayBackgroundColor,
+        };
+
+  return (
+    <SafeAreaView>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)} // Close on back press
+      >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlayBackgroundColor }]}>
+            <View style={[styles.modalContent, { backgroundColor: colors.screenBackground }]}>
+              <TouchableOpacity
+                onPress={() => handleGoToAdminItemPress()}
+                style={[styles.menuItem, { borderBottomColor: colors.separatorColor }]}
+              >
+                <Text style={styles.menuText}>Go to Admin</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleMenuItemPress('Option 2')}
+                style={[styles.menuItem, { borderBottomColor: colors.separatorColor }]}
+              >
+                <Text style={styles.menuText}>Option 2</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleMenuItemPress('Option 3')}
+                style={[styles.menuItem, { borderBottomColor: colors.separatorColor }]}
+              >
+                <Text style={styles.menuText}>Option 3</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </SafeAreaView>
+  );
+}
+
+function HomeScreenContent({ buttons, colors }: { buttons: ActionButtonProps[]; colors: ThemedColors }) {
+  return (
+    <View style={[styles.screenContainer, { backgroundColor: colors.screenBackground }]}>
+      <Text txtSize='title'>Home Screen</Text>
+      <Link style={styles.link} href={'(tabs)/home/detail'}>
+        <Text>Go to Details</Text>
+      </Link>
+      <View style={[styles.twoColListContainer, { backgroundColor: colors.screenBackground }]}>
+        <TwoColumnList
+          data={listData}
+          onPress={(i) => console.log(`Hello from item ${i.primaryTitle}`)}
+          buttons={buttons}
+        />
+      </View>
+    </View>
+  );
+}
+
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   // Define colors based on the color scheme (dark or light)
   const colors =
@@ -198,41 +302,27 @@ export default function HomeScreen() {
               <ScreenHeader
                 title='Android Home Screen'
                 headerRight={() => (
-                  <>
-                    <Pressable
-                      onPress={() => {
-                        router.replace('/(admin-tabs)/admin');
-                        console.log('going to route /(admin-tabs)/admin');
-                      }}
-                    >
-                      {({ pressed }) => (
-                        <MaterialDesignTabBarIcon
-                          name='cog'
-                          size={24}
-                          color={colorScheme === 'light' ? 'black' : 'white'}
-                          style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                        />
-                      )}
-                    </Pressable>
-                  </>
+                  <Pressable
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    {({ pressed }) => (
+                      <MaterialDesignTabBarIcon
+                        name='cog'
+                        size={24}
+                        color={colorScheme === 'light' ? 'black' : 'white'}
+                        style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                      />
+                    )}
+                  </Pressable>
                 )}
               />
             ),
           }}
         />
-        <View style={[styles.screenContainer, { backgroundColor: colors.screenBackground }]}>
-          <Text txtSize='title'>Home Screen</Text>
-          <Link style={styles.link} href={'(tabs)/home/detail'}>
-            <Text>Go to Details</Text>
-          </Link>
-          <View style={[styles.twoColListContainer, { backgroundColor: colors.screenBackground }]}>
-            <TwoColumnList
-              data={listData}
-              onPress={(i) => console.log(`Hello from item ${i.primaryTitle}`)}
-              buttons={buttons}
-            />
-          </View>
-        </View>
+        <HomeScreenContent buttons={buttons} colors={colors} />
+        <HomeScreenModalMenu modalVisible={modalVisible} setModalVisible={setModalVisible} />
       </>
     );
   }
@@ -245,39 +335,25 @@ export default function HomeScreen() {
           headerShown: true,
           title: 'Std Home Screen',
           headerRight: () => (
-            <>
-              <Pressable
-                onPress={() => {
-                  router.replace('/(admin-tabs)/admin');
-                  console.log('going to route /(admin-tabs)/admin');
-                }}
-              >
-                {({ pressed }) => (
-                  <MaterialDesignTabBarIcon
-                    name='cog'
-                    size={24}
-                    color={colorScheme === 'light' ? 'black' : 'white'}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </>
+            <Pressable
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              {({ pressed }) => (
+                <MaterialDesignTabBarIcon
+                  name='cog'
+                  size={24}
+                  color={colorScheme === 'light' ? 'black' : 'white'}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+              )}
+            </Pressable>
           ),
         }}
       />
-      <View style={[styles.screenContainer, { backgroundColor: colors.screenBackground }]}>
-        <Text txtSize='title'>Home Screen</Text>
-        <Link style={styles.link} href={'(tabs)/home/detail'}>
-          <Text>Go to Details</Text>
-        </Link>
-        <View style={[styles.twoColListContainer, { backgroundColor: colors.screenBackground }]}>
-          <TwoColumnList
-            data={listData}
-            onPress={(i) => console.log(`Hello from item ${i.primaryTitle}`)}
-            buttons={buttons}
-          />
-        </View>
-      </View>
+      <HomeScreenContent buttons={buttons} colors={colors} />
+      <HomeScreenModalMenu modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </>
   );
 }
@@ -300,5 +376,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', // Bold text for better visibility
     textDecorationLine: 'underline', // To give it the traditional link look
     paddingVertical: 8, // Provides space above and below the link
+  },
+  modalOverlay: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+  },
+  modalContent: {
+    marginTop: 110,
+    marginRight: 10,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    width: 150,
+    elevation: 5, // To give the modal a slight shadow
+  },
+  menuItem: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+  },
+  menuText: {
+    fontSize: 16,
   },
 });

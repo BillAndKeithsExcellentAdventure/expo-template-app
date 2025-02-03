@@ -36,6 +36,6 @@ export const Colors = {
     inputBorder: '#777',
     boxShadow: '0px 2px 5px rgba(255, 255, 255, 0.8)', // ...(Platform.OS === 'web'
     placeHolder: 'rgba(255, 255, 255, 0.4)',
-    modalOverlayBackgroundColor: 'rgba(255, 255, 255, 0.1)',
+    modalOverlayBackgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
 };

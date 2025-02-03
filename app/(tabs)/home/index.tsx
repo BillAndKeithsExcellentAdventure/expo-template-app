@@ -170,6 +170,8 @@ function HomeScreenModalMenu({
           modalOverlayBackgroundColor: Colors.light.modalOverlayBackgroundColor,
         };
 
+  const topMargin = Platform.OS === 'ios' ? 110 : 50;
+
   return (
     <SafeAreaView>
       <Modal
@@ -180,7 +182,7 @@ function HomeScreenModalMenu({
       >
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
           <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlayBackgroundColor }]}>
-            <View style={[styles.modalContent, { backgroundColor: colors.screenBackground }]}>
+            <View style={[styles.modalContent, { backgroundColor: colors.screenBackground, marginTop: topMargin }]}>
               <TouchableOpacity
                 onPress={() => handleGoToAdminItemPress()}
                 style={[styles.menuItem, { borderBottomColor: colors.separatorColor }]}
@@ -383,7 +385,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   modalContent: {
-    marginTop: 110,
     marginRight: 10,
     borderRadius: 10,
     paddingHorizontal: 10,

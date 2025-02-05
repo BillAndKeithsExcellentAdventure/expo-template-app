@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useState } from 'react';
 import { Colors } from '@/constants/Colors';
+import { TextField } from '@/components/TextField';
 
 export default function CreateJobModalScreen() {
   const [name, setName] = useState<string>('');
@@ -29,7 +30,7 @@ export default function CreateJobModalScreen() {
       <View style={[styles.modalContent, { backgroundColor: colors.background }]}>
         <Text style={styles.headerText}>New Job Details</Text>
 
-        <TextInput
+        <TextField
           style={[styles.input, { borderColor: colors.borderColor }]}
           placeholder='Job Name'
           value={name}

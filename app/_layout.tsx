@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { SessionProvider, useSession } from '@/session/ctx';
 import { useColorScheme } from '@/components/useColorScheme';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -45,17 +46,19 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <SessionProvider>
-        <Stack>
-          <Stack.Screen name='index' />
-          <Stack.Screen name='(tabs)' options={{ headerTitle: 'Jobs', headerShown: false }} />
-          <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-          <Stack.Screen name='(admin-tabs)' options={{ headerShown: false }} />
-          <Stack.Screen name='(modals)/modal' options={{ presentation: 'modal', title: 'Simple Modal' }} />
-          <Stack.Screen
-            name='(modals)/createJob'
-            options={{ presentation: 'modal', gestureEnabled: false, title: 'Create New Job' }}
-          />
-        </Stack>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Stack>
+            <Stack.Screen name='index' />
+            <Stack.Screen name='(tabs)' options={{ headerTitle: 'Jobs', headerShown: false }} />
+            <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+            <Stack.Screen name='(admin-tabs)' options={{ headerShown: false }} />
+            <Stack.Screen name='(modals)/modal' options={{ presentation: 'modal', title: 'Simple Modal' }} />
+            <Stack.Screen
+              name='(modals)/createJob'
+              options={{ presentation: 'modal', gestureEnabled: false, title: 'Create New Job' }}
+            />
+          </Stack>
+        </GestureHandlerRootView>
       </SessionProvider>
     </ThemeProvider>
   );

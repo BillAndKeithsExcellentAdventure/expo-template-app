@@ -28,6 +28,8 @@ interface ThemedColors {
   itemBackground: string;
   iconColor: string;
   shadowColor: string;
+  text: string;
+  bottomSheetBackground: string;
 }
 
 function FAIcon(props: { name: React.ComponentProps<typeof FontAwesome>['name']; color: string }) {
@@ -265,7 +267,7 @@ function HomeScreenContent({ buttons, colors }: { buttons: ActionButtonProps[]; 
   return (
     <View style={[styles.screenContainer, { backgroundColor: colors.screenBackground }]}>
       <Text txtSize='title'>Home Screen</Text>
-      <Link style={styles.link} href={'(tabs)/home/detail'}>
+      <Link style={styles.link} href={'/(tabs)/home/detail'}>
         <Text>Go to Details</Text>
       </Link>
       <TouchableOpacity activeOpacity={1} onPress={() => handleTogglePicker()} style={{ width: '50%' }}>

@@ -18,7 +18,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { ActionButtonProps } from '@/components/ButtonBar';
 import { Colors } from '@/constants/Colors';
 import { ScreenHeader } from '@/components/ScreenHeader';
-import { PickerItem, ValuePicker } from '@/components/ValuePicker';
+import { PickerItem } from '@/components/ValuePicker';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { TextField } from '@/components/TextField';
 

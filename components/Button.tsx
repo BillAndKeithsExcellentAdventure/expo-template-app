@@ -1,5 +1,5 @@
 import { Colors } from '@/constants/Colors';
-import { ComponentType } from 'react';
+import { ComponentType, useMemo } from 'react';
 import {
   Pressable,
   PressableProps,
@@ -109,69 +109,79 @@ export function Button(props: ButtonProps) {
   const colorScheme = useColorScheme();
 
   // Define colors based on the color scheme (dark or light)
-  const colors =
-    colorScheme === 'dark'
-      ? {
-          text: Colors.dark.text,
-          listBackground: Colors.dark.listBackground,
-          itemBackground: Colors.dark.itemBackground,
-          iconColor: Colors.dark.iconColor,
-          shadowColor: Colors.dark.shadowColor,
-          borderColor: Colors.dark.borderColor,
-          neutral100: Colors.dark.neutral100,
-          neutral200: Colors.dark.neutral200,
-          neutral300: Colors.dark.neutral300,
-          neutral400: Colors.dark.neutral400,
-          neutral700: Colors.dark.neutral700,
-          neutral800: Colors.dark.neutral800,
-        }
-      : {
-          text: Colors.light.text,
-          listBackground: Colors.light.listBackground,
-          itemBackground: Colors.light.itemBackground,
-          iconColor: Colors.light.iconColor,
-          shadowColor: Colors.light.shadowColor,
-          borderColor: Colors.light.borderColor,
-          neutral100: Colors.light.neutral100,
-          neutral200: Colors.light.neutral200,
-          neutral300: Colors.light.neutral300,
-          neutral400: Colors.light.neutral400,
-          neutral700: Colors.light.neutral700,
-          neutral800: Colors.light.neutral800,
-        };
+  const colors = useMemo<any>(() => {
+    const themeColors =
+      colorScheme === 'dark'
+        ? {
+            text: Colors.dark.text,
+            listBackground: Colors.dark.listBackground,
+            itemBackground: Colors.dark.itemBackground,
+            iconColor: Colors.dark.iconColor,
+            shadowColor: Colors.dark.shadowColor,
+            borderColor: Colors.dark.borderColor,
+            neutral100: Colors.dark.neutral100,
+            neutral200: Colors.dark.neutral200,
+            neutral300: Colors.dark.neutral300,
+            neutral400: Colors.dark.neutral400,
+            neutral700: Colors.dark.neutral700,
+            neutral800: Colors.dark.neutral800,
+          }
+        : {
+            text: Colors.light.text,
+            listBackground: Colors.light.listBackground,
+            itemBackground: Colors.light.itemBackground,
+            iconColor: Colors.light.iconColor,
+            shadowColor: Colors.light.shadowColor,
+            borderColor: Colors.light.borderColor,
+            neutral100: Colors.light.neutral100,
+            neutral200: Colors.light.neutral200,
+            neutral300: Colors.light.neutral300,
+            neutral400: Colors.light.neutral400,
+            neutral700: Colors.light.neutral700,
+            neutral800: Colors.light.neutral800,
+          };
+    return themeColors;
+  }, [colorScheme]);
 
   const preset: Presets = props.preset ?? 'default';
-  let viewStyles: StyleProp<ViewStyle> = {};
-  if (preset === 'default') {
-    viewStyles = {
-      borderWidth: 1,
-      borderColor: colors.neutral400,
-      backgroundColor: colors.neutral100,
-    };
-  } else if (preset === 'filled') {
-    viewStyles = {
-      backgroundColor: colors.neutral300,
-    };
-  } else if (preset === 'reversed') {
-    viewStyles = {
-      backgroundColor: colors.neutral800,
-    };
-  }
 
-  let textStyles: StyleProp<TextStyle> = {};
-  if (preset === 'default') {
-    textStyles = {
-      color: colors.text,
-    };
-  } else if (preset === 'filled') {
-    textStyles = {
-      color: colors.text,
-    };
-  } else if (preset === 'reversed') {
-    textStyles = {
-      color: colors.neutral100,
-    };
-  }
+  const viewStyles = useMemo<StyleProp<ViewStyle>>(() => {
+    let vwStyles: StyleProp<ViewStyle> = {};
+    if (preset === 'default') {
+      vwStyles = {
+        borderWidth: 1,
+        borderColor: colors.neutral400,
+        backgroundColor: colors.neutral100,
+      };
+    } else if (preset === 'filled') {
+      vwStyles = {
+        backgroundColor: colors.neutral300,
+      };
+    } else if (preset === 'reversed') {
+      vwStyles = {
+        backgroundColor: colors.neutral800,
+      };
+    }
+    return vwStyles;
+  }, [colors]);
+
+  const textStyles = useMemo<StyleProp<TextStyle>>(() => {
+    let txtStyles: StyleProp<TextStyle> = {};
+    if (preset === 'default') {
+      txtStyles = {
+        color: colors.text,
+      };
+    } else if (preset === 'filled') {
+      txtStyles = {
+        color: colors.text,
+      };
+    } else if (preset === 'reversed') {
+      txtStyles = {
+        color: colors.neutral100,
+      };
+    }
+    return txtStyles;
+  }, [colors]);
 
   const content = text || children;
 
@@ -185,7 +195,9 @@ export function Button(props: ButtonProps) {
     >
       {(state) => (
         <>
-          {!!LeftAccessory && <LeftAccessory style={[styles.leftAccessoryStyle]} pressableState={state} disabled={disabled} />}
+          {!!LeftAccessory && (
+            <LeftAccessory style={[styles.leftAccessoryStyle]} pressableState={state} disabled={disabled} />
+          )}
           <Text style={[styles.baseTextStyle, textStyles]}>{content}</Text>
           {!!RightAccessory && (
             <RightAccessory style={styles.rightAccessoryStyle} pressableState={state} disabled={disabled} />

@@ -21,6 +21,7 @@ import { ScreenHeader } from '@/components/ScreenHeader';
 import { PickerItem } from '@/components/ValuePicker';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { TextField } from '@/components/TextField';
+import { Button } from '@/components/Button';
 
 interface ThemedColors {
   screenBackground: string;
@@ -270,6 +271,8 @@ function HomeScreenContent({ buttons, colors }: { buttons: ActionButtonProps[]; 
       <Link style={styles.link} href={'/(tabs)/home/detail'}>
         <Text>Go to Details</Text>
       </Link>
+      <Button style={styles.link} onPress={() => router.navigate('/(tabs)/home/detail')} text={'Go to Details'} />
+
       <TouchableOpacity activeOpacity={1} onPress={() => handleTogglePicker()} style={{ width: '50%' }}>
         <View pointerEvents='none'>
           <TextField

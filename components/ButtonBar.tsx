@@ -33,7 +33,7 @@ const ButtonBar: React.FC<ButtonBarProps> = ({ buttons, actionContext }) => {
           itemBackground: Colors.light.itemBackground,
           iconColor: Colors.light.iconColor,
           shadowColor: Colors.light.shadowColor,
-          borderColor: Colors.dark.borderColor,
+          borderColor: Colors.light.borderColor,
         };
 
   return (

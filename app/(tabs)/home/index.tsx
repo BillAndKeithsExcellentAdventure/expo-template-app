@@ -19,7 +19,6 @@ import { ActionButtonProps } from '@/components/ButtonBar';
 import { Colors } from '@/constants/Colors';
 import { ScreenHeader } from '@/components/ScreenHeader';
 import { PickerItem } from '@/components/ValuePicker';
-import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { TextField } from '@/components/TextField';
 import { Button } from '@/components/Button';
 
@@ -220,7 +219,6 @@ function HomeScreenModalMenu({
 }
 
 function HomeScreenContent({ buttons, colors }: { buttons: ActionButtonProps[]; colors: ThemedColors }) {
-  const sheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['50%'], []);
   const [selectedValue, setSelectedValue] = useState<string | undefined>();
   const isSheetOpenRef = useRef<boolean>(false);
@@ -273,18 +271,6 @@ function HomeScreenContent({ buttons, colors }: { buttons: ActionButtonProps[]; 
       </Link>
       <Button style={styles.link} onPress={() => router.navigate('/(tabs)/home/detail')} text={'Go to Details'} />
 
-      <TouchableOpacity activeOpacity={1} onPress={() => handleTogglePicker()} style={{ width: '50%' }}>
-        <View pointerEvents='none'>
-          <TextField
-            label='Template'
-            placeholder='Item'
-            value={selectedValue}
-            readOnly
-            RightAccessory={(props) => <FAIcon name='caret-right' color={colors.iconColor} />}
-          />
-        </View>
-      </TouchableOpacity>
-
       <View style={[styles.twoColListContainer, { backgroundColor: colors.screenBackground }]}>
         <TwoColumnList
           data={listData}
@@ -292,30 +278,6 @@ function HomeScreenContent({ buttons, colors }: { buttons: ActionButtonProps[]; 
           buttons={buttons}
         />
       </View>
-      <BottomSheet
-        ref={sheetRef}
-        snapPoints={snapPoints}
-        enableDynamicSizing={false}
-        handleIndicatorStyle={{ backgroundColor: colors.text }}
-        backgroundStyle={{ backgroundColor: colors.bottomSheetBackground }}
-        index={-1}
-        style={{ backgroundColor: colors.bottomSheetBackground }}
-      >
-        <View style={{ backgroundColor: colors.bottomSheetBackground }}>
-          <Text
-            txtSize='title'
-            text='Select Template'
-            style={{ alignSelf: 'center', backgroundColor: colors.bottomSheetBackground }}
-          />
-          <BottomSheetFlatList
-            style={{ paddingHorizontal: 30 }}
-            data={data}
-            keyExtractor={(i) => i.value}
-            renderItem={renderItem}
-            contentContainerStyle={[styles.contentContainer, { backgroundColor: colors.screenBackground }]}
-          />
-        </View>
-      </BottomSheet>
     </View>
   );
 }
